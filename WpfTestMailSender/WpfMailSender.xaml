@@ -5,10 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfTestMailSender"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize">
-    <Grid>
-        <Button x:Name="btnSendEmail" Content="Отправить email" HorizontalAlignment="Left" Margin="240,193,0,0" VerticalAlignment="Top" Click="btnSendEmail_Click"/>
-        <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="215,171,0,0" VerticalAlignment="Top" Width="120"/>
+        Title="MailSendler" Height="408" Width="428" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid HorizontalAlignment="Center" Width="438" Margin="0,0,0,0" ShowGridLines="False">
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*">
+
+            </ColumnDefinition>
+            <ColumnDefinition Width="5*">
+
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*">
+
+            </RowDefinition>
+            <RowDefinition Height="5*">
+            
+            </RowDefinition>
+        </Grid.RowDefinitions>-->
+
+        <TextBox x:Name="tbFrom" HorizontalAlignment="Left" Margin="23,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="PasswordBox" PasswordChar="*" HorizontalAlignment="Left" Margin="23,103,0,0" VerticalAlignment="Top" Width="120"/>
+        <Label HorizontalAlignment="Left" Margin="23,13,0,0" VerticalAlignment="Top">
+            <Run Language="ru-ru" Text="Введите ваши данные"/>
+        </Label>
+        <Label HorizontalAlignment="Left" Margin="23,34,0,0" VerticalAlignment="Top">
+            <Run Language="ru-ru" Text="Логин"/>
+        </Label>
+        <Label HorizontalAlignment="Left" Margin="23,82,0,0" VerticalAlignment="Top">
+            <Run Language="ru-ru" Text="Пароль"/>
+        </Label>
+
+        <TextBox x:Name="tbTo" HorizontalAlignment="Left" Margin="173,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbMailSubject" HorizontalAlignment="Left" Margin="173,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="tbMailBody" HorizontalAlignment="Left" Margin="173,154,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" RenderTransformOrigin="0.35,-0.768" Height="154"/>
+        <Button x:Name="btnSendEmail"  HorizontalAlignment="Left" Margin="173,326,0,0" VerticalAlignment="Top" Click="btnSendEmail_Click">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="Отправить e-mail"/>
+                <Image Source="img/send_mail.png" Width="30px" Height="30px" />
+            </StackPanel>
+        </Button>
+            <Label HorizontalAlignment="Left" Margin="232,13,0,0" VerticalAlignment="Top">
+            <Run Language="ru-ru" Text="Отправляем почту"/>
+        </Label>
+        <Label HorizontalAlignment="Left" Margin="173,34,0,0" VerticalAlignment="Top">
+            <Run Language="ru-ru" Text="Кому:"/>
+        </Label>
+        <Label HorizontalAlignment="Left" Margin="173,84,0,0" VerticalAlignment="Top">
+            <Run Language="ru-ru" Text="Тема письма"/>
+        </Label>
+        <Label HorizontalAlignment="Left" Margin="173,133,0,0" VerticalAlignment="Top">
+            <Run Language="ru-ru" Text="Текст письма"/>
+        </Label>
+        <Button x:Name="btnAddNewTo" Content="Добавить получателя" HorizontalAlignment="Left" Margin="298,76,0,0" VerticalAlignment="Top" Click="btnAddNewTo_Click"/>
+        <TextBox x:Name="tbAddNewTo" Visibility="Hidden" HorizontalAlignment="Left" Margin="299,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="функционал не создан" />
 
     </Grid>
 </Window>

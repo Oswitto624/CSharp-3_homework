@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net;
 using System.Net.Mail;
-
+using System.Diagnostics;
 
 namespace WpfTestMailSender
 {
@@ -30,7 +30,13 @@ namespace WpfTestMailSender
 
         private void btnSendEmail_Click(object sender, RoutedEventArgs e)
         {
+            MailSendlerLogic.SendMessage(tbFrom.Text, PasswordBox.Password, tbTo.Text, tbMailSubject.Text, tbMailBody.Text);
+        }
 
+        private void btnAddNewTo_Click(object sender, RoutedEventArgs e)
+        {
+            tbAddNewTo.Visibility = Visibility.Visible;
+            btnAddNewTo.Visibility = Visibility.Hidden;
         }
     }
 }
