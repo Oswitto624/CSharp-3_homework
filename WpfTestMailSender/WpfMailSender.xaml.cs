@@ -12,9 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Net;
-using System.Net.Mail;
-using System.Diagnostics;
 
 namespace WpfTestMailSender
 {
@@ -30,13 +27,65 @@ namespace WpfTestMailSender
 
         private void btnSendEmail_Click(object sender, RoutedEventArgs e)
         {
-            MailSendlerLogic.SendMessage(tbFrom.Text, PasswordBox.Password, tbTo.Text, tbMailSubject.Text, tbMailBody.Text);
+            MailForm newMail = new MailForm(tbTo.Text, tbFrom.Text, tbMailSubject.Text, tbMailBody.Text);
+            if (!MailSendlerLogic.CheckAdress(tbFrom.Text))
+            {
+                MessageBox.Show("Неверный адрес отправителя!");
+                return;
+            }
+            if (!MailSendlerLogic.CheckAdress(tbTo.Text))
+            {
+                MessageBox.Show("Неверный адрес получателя!");
+                return;
+            }
+
+            MailSendlerLogic.SendMessage(newMail, PasswordBox.Password);
+            SendEndWindow okWindow = new SendEndWindow();
+            okWindow.ShowDialog();
         }
 
-        private void btnAddNewTo_Click(object sender, RoutedEventArgs e)
+        private void FileInputBox_FileNameChanged(object sender, EventArgs e)
         {
-            tbAddNewTo.Visibility = Visibility.Visible;
-            btnAddNewTo.Visibility = Visibility.Hidden;
+            System.Diagnostics.Debug.WriteLine(fibFileInput.FileName);
         }
+
+        private void fibFileInput_FileNameChanged(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(fibFileInput.FileName);
+        }
+
+        private void Switcher_Next()
+        {
+            tcTabControl.SelectedIndex++;
+        }
+
+        private void Switcher_Prev()
+        {
+            tcTabControl.SelectedIndex--;
+        }
+
+        //private void btnAddNewTo_Click(object sender, RoutedEventArgs e)
+        //{
+        //    tbAddNewTo.Visibility = Visibility.Visible;
+        //    btnAddNewTo.Visibility = Visibility.Hidden;
+        //}
+
+        //private void btnSendEmail_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (!MailSendlerLogic.CheckAdress(tbFrom.Text))
+        //    {
+        //        MessageBox.Show("Неверный адрес отправителя!");
+        //    }
+        //    else if (!MailSendlerLogic.CheckAdress(tbTo.Text))
+        //    {
+        //        MessageBox.Show("Неверный адрес получателя!");
+        //    }
+        //    else
+        //    {
+        //        MailSendlerLogic.SendMessage(tbFrom.Text, PasswordBox.Password, tbTo.Text, tbMailSubject.Text, tbMailBody.Text);
+        //        SendEndWindow okWindow = new SendEndWindow();
+        //        okWindow.ShowDialog();
+        //    }
+        //}
     }
 }

@@ -1,0 +1,12 @@
+<UserControl x:Class="LibControls.FileInputBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LibControls"
+             mc:Ignorable="d" x:Name="root">
+    <DockPanel>
+        <Button x:Name="btnBrowseButton" Content="Browse..." DockPanel.Dock="Right" Click="btnBrowseButton_Click"/>
+        <TextBox x:Name="tbTextBox" MinWidth="{Binding ActualWidth, ElementName=btnBrowseButton}" Margin="0,0,2,0" Text="{Binding FileName, ElementName=root}"/>
+    </DockPanel>
+</UserControl>

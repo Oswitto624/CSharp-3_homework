@@ -6,4 +6,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="img\send_mail.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibControls\LibControls.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\send_mail.png" />
+  </ItemGroup>
+
 </Project>

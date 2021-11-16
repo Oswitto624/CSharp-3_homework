@@ -27,29 +27,30 @@ namespace TestMailSender
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false
+                
             };
-           
-            string successSend = $"Message was send. " +
-                                 $"\nFrom: { from.Address} " +
-                                 $"\nTo: { to.Address} " +
-                                 $"\nSubject: { mailMessage.Subject}" +
-                                 $"\nMessage body: { mailMessage.Body}";
 
-            Console.WriteLine(successSend);
-            Debug.WriteLine(successSend);
-               
-            
+            //string successSend = $"Message was send. " +
+            //                     $"\nFrom: { from.Address} " +
+            //                     $"\nTo: { to.Address} " +
+            //                     $"\nSubject: { mailMessage.Subject}" +
+            //                     $"\nMessage body: { mailMessage.Body}";
+
+            //Console.WriteLine(successSend);
+            //Debug.WriteLine(successSend);
+
+
             //Попробовал отправлять письма, но не выходило. В настройках почты всё хорошо (почта новая, пустышка). Можете попробовать раскомментировать и
             //попробовать отправить. Мб что-то не то с портом (хотя указал всё по гайду с gmail.com).
-            //try
-            //{
-            //    sc.Send(mailMessage);
-            //    Console.WriteLine("Ура, получилос!");
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine("не выходит( \n" + ex.ToString());
-            //}
+            try
+            {
+                sc.Send(mailMessage);
+                Console.WriteLine("Ура, получилос!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("не выходит( \n" + ex.ToString());
+            }
 
             Console.ReadLine();
         }

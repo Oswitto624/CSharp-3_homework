@@ -3,65 +3,77 @@ using System.Text;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Mail;
-using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
 
 namespace WpfTestMailSender
 {
-    
     class MailSendlerLogic
     {
-        public static void SendMessage(string from, string password, string to, string msgSubject, string msgBody)
+        public static bool CheckAdress(string adress)
         {
-            //обработка неверного ввода адресов почты при помощи регулярного выражения
+            bool chk = false;
             Regex eMailAdress = new Regex(@"[A-Za-z]+[\.A-Za-z0-9_-]*[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]{2,6}");
-            if (!eMailAdress.IsMatch(from))
+
+            if (eMailAdress.IsMatch(adress))
             {
-                MessageBox.Show("Неверный адрес отправителя!");
-                return;
+                chk = true;
             }
-            else if (!eMailAdress.IsMatch(to))
-            {
-                MessageBox.Show("Неверный адрес получателя!");
-                return;
-            }
-
-            //в качестве заготовки для будущего клиента рассылки писем (далее будет наверное обработка нескольких адресов)
-            MailForm email = new MailForm(from, to, msgSubject, msgBody);
-
-            using (MailMessage mailMessage = new MailMessage(email.From, email.To))
-            {                              
-                mailMessage.Subject = email.MsgSubject;
-                mailMessage.Body = email.MsgBody;
-                mailMessage.IsBodyHtml = false;
-
-                SmtpClient sc = new SmtpClient("smtp.gmail.com", 465)
-                {
-                    Credentials = new NetworkCredential(email.From, password),
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false
-                };
-
-                string successSend = $"Message was send. " +
-                                     $"\nFrom: { email.From } " +
-                                     $"\nTo: { email.To } " +
-                                     $"\nSubject: { email.MsgSubject }" +
-                                     $"\nMessage body: { email.MsgBody }";
-
-                Debug.WriteLine(successSend);
-
-                SendEndWindow okWindow = new SendEndWindow();
-                okWindow.ShowDialog();
-            }
+            return chk;
         }
 
+        public static void SendMessage(MailForm email, string password)
+        {
+            using MailMessage mailMessage = new MailMessage(email.From, email.To)
+            {
+                Subject = email.MsgSubject,
+                Body = email.MsgBody,
+                IsBodyHtml = false
+            };
+
+            SmtpClient sc = new SmtpClient("smtp.gmail.com", 465)
+            {
+                Credentials = new NetworkCredential(email.From, password),
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false
+            };
+
+            Debug.WriteLine($"Message was sent. \nFrom: { email.From } \nTo: { email.To } \nSubject: { email.MsgSubject }\nMessage body: { email.MsgBody }");
+        }
+
+        //public static void SendMessage(string from, string password, string to, string msgSubject, string msgBody)
+        //{
+        //    //в качестве заготовки для будущего клиента рассылки писем (далее будет наверное обработка нескольких адресов)
+        //    MailForm email = new MailForm(from, to, msgSubject, msgBody);
+
+        //    using (MailMessage mailMessage = new MailMessage(email.From, email.To))
+        //    {
+        //        mailMessage.Subject = email.MsgSubject;
+        //        mailMessage.Body = email.MsgBody;
+        //        mailMessage.IsBodyHtml = false;
+
+        //        SmtpClient sc = new SmtpClient("smtp.gmail.com", 465)
+        //        {
+        //            Credentials = new NetworkCredential(email.From, password),
+        //            EnableSsl = true,
+        //            DeliveryMethod = SmtpDeliveryMethod.Network,
+        //            UseDefaultCredentials = false
+        //        };
+
+        //        string successSend = $"Message was sent. " +
+        //                             $"\nFrom: { email.From } " +
+        //                             $"\nTo: { email.To } " +
+        //                             $"\nSubject: { email.MsgSubject }" +
+        //                             $"\nMessage body: { email.MsgBody }";
+
+        //        Debug.WriteLine(successSend);
+        //    }
 
         /// <summary>
-        /// старый метод, без класса. так же закоментирована попытка именно отправки почты, без заглушки, но возникает проблема  
-        /// то ли с портом, то ли с настройкой самого аккаунта для рассылки.
-        /// </summary>
+            /// старый метод, без класса. так же закоментирована попытка именно отправки почты, без заглушки, но возникает проблема  
+            /// то ли с портом, то ли с настройкой самого аккаунта для рассылки.
+            /// </summary>
         //public static void SendMessage(string from, string password, string to, string msgSubject, string msgBody)
         //{
         //    using (MailMessage mailMessage = new MailMessage(from, to))
