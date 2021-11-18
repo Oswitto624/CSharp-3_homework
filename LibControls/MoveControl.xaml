@@ -9,13 +9,13 @@
         <WrapPanel>
             <Button x:Name="btnPrev" Width="113">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Prev"/>
+                    <TextBlock Text="Prev" HorizontalAlignment="Center"/>
                     <TextBlock x:Name="tbPrev" Text="{Binding PrevText, ElementName=btnMoveControls}"/>
                 </StackPanel>
             </Button>
             <Button x:Name="btnNext" Width="115">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Next"/>
+                    <TextBlock Text="Next" HorizontalAlignment="Center"/>
                     <TextBlock x:Name="tbNext" Text="{Binding NextText, ElementName=btnMoveControls}"/>
                 </StackPanel>
             </Button>

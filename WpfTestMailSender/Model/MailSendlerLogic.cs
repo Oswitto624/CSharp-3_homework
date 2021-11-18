@@ -10,6 +10,12 @@ namespace WpfTestMailSender
 {
     class MailSendlerLogic
     {
+        public static bool CheckAccess(string login, string password)
+        {
+            if (login == "admin1" && password == "admin1") return true;
+            return false;
+        }
+
         public static bool CheckAdress(string adress)
         {
             bool chk = false;

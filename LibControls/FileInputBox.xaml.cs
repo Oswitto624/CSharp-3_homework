@@ -62,7 +62,10 @@ namespace LibControls
         public string FileName
         {
             get { return (string)GetValue(FileNameProperty); }
-            set { SetValue(FileNameProperty, value); }
+            set 
+            { 
+                SetValue(FileNameProperty, value);
+                tbTextBox.Text = value;}
         }
 
         protected override void OnContentChanged(object oldContent, object newContent)

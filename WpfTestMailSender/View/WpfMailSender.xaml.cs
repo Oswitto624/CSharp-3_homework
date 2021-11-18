@@ -25,30 +25,6 @@ namespace WpfTestMailSender
             InitializeComponent();
         }
 
-        private void btnSendEmail_Click(object sender, RoutedEventArgs e)
-        {
-            MailForm newMail = new MailForm(tbTo.Text, tbFrom.Text, tbMailSubject.Text, tbMailBody.Text);
-            if (!MailSendlerLogic.CheckAdress(tbFrom.Text))
-            {
-                MessageBox.Show("Неверный адрес отправителя!");
-                return;
-            }
-            if (!MailSendlerLogic.CheckAdress(tbTo.Text))
-            {
-                MessageBox.Show("Неверный адрес получателя!");
-                return;
-            }
-
-            MailSendlerLogic.SendMessage(newMail, PasswordBox.Password);
-            SendEndWindow okWindow = new SendEndWindow();
-            okWindow.ShowDialog();
-        }
-
-        private void FileInputBox_FileNameChanged(object sender, EventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine(fibFileInput.FileName);
-        }
-
         private void fibFileInput_FileNameChanged(object sender, RoutedEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine(fibFileInput.FileName);
@@ -63,7 +39,7 @@ namespace WpfTestMailSender
         //не понял как получать последний индекс в TabControl, поэтому рамки проверки задаются вручную
         private void LibControls_TabSwitcherControl_btnNextClick(object sender, RoutedEventArgs e)
         {
-            if (Convert.ToInt32(tcTabControl.SelectedIndex) == 2)return;
+            if (Convert.ToInt32(tcTabControl.SelectedIndex) == 3) return;
             tcTabControl.SelectedIndex++;
         }
 
@@ -75,20 +51,21 @@ namespace WpfTestMailSender
 
         //private void btnSendEmail_Click(object sender, RoutedEventArgs e)
         //{
+        //    MailForm newMail = new MailForm(tbTo.Text, tbFrom.Text, tbMailSubject.Text, tbMailBody.Text);
         //    if (!MailSendlerLogic.CheckAdress(tbFrom.Text))
         //    {
         //        MessageBox.Show("Неверный адрес отправителя!");
+        //        return;
         //    }
-        //    else if (!MailSendlerLogic.CheckAdress(tbTo.Text))
+        //    if (!MailSendlerLogic.CheckAdress(tbTo.Text))
         //    {
         //        MessageBox.Show("Неверный адрес получателя!");
+        //        return;
         //    }
-        //    else
-        //    {
-        //        MailSendlerLogic.SendMessage(tbFrom.Text, PasswordBox.Password, tbTo.Text, tbMailSubject.Text, tbMailBody.Text);
-        //        SendEndWindow okWindow = new SendEndWindow();
-        //        okWindow.ShowDialog();
-        //    }
+
+        //    MailSendlerLogic.SendMessage(newMail, PasswordBox.Password);
+        //    SendEndWindow okWindow = new SendEndWindow();
+        //    okWindow.ShowDialog();
         //}
     }
 }
