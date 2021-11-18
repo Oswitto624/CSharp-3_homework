@@ -16,5 +16,6 @@ namespace WpfTestMailSender
     /// </summary>
     public partial class App : Application
     {
+      
     }
 }

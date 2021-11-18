@@ -7,16 +7,16 @@
              mc:Ignorable="d" x:Name="btnMoveControls">
     <Grid>
         <WrapPanel>
-            <Button x:Name="btnPrev" Width="113" Click="btnPrev_Click">
+            <Button x:Name="btnPrev" Width="113">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Prev"/>
-                    <Label Content="1"/>
+                    <TextBlock x:Name="tbPrev" Text="{Binding PrevText, ElementName=btnMoveControls}"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="btnNext" Width="115" Click="btnNext_Click">
+            <Button x:Name="btnNext" Width="115">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Next"/>
-                    <Label Content="2"/>
+                    <TextBlock x:Name="tbNext" Text="{Binding NextText, ElementName=btnMoveControls}"/>
                 </StackPanel>
             </Button>
         </WrapPanel>

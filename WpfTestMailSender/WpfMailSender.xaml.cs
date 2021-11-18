@@ -54,14 +54,17 @@ namespace WpfTestMailSender
             System.Diagnostics.Debug.WriteLine(fibFileInput.FileName);
         }
 
-        private void Switcher_Next()
+        private void LibControls_TabSwitcherControl_btnPrevClick(object sender, RoutedEventArgs e)
         {
-            tcTabControl.SelectedIndex++;
+            if (Convert.ToInt32(tcTabControl.SelectedIndex) == 0) return;
+            tcTabControl.SelectedIndex--;
         }
 
-        private void Switcher_Prev()
+        //не понял как получать последний индекс в TabControl, поэтому рамки проверки задаются вручную
+        private void LibControls_TabSwitcherControl_btnNextClick(object sender, RoutedEventArgs e)
         {
-            tcTabControl.SelectedIndex--;
+            if (Convert.ToInt32(tcTabControl.SelectedIndex) == 2)return;
+            tcTabControl.SelectedIndex++;
         }
 
         //private void btnAddNewTo_Click(object sender, RoutedEventArgs e)
