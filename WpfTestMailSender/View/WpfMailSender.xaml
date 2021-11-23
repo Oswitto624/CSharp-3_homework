@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfTestMailSender"
         xmlns:vm="clr-namespace:WpfTestMailSender.ViewModel"
         xmlns:LibControls="clr-namespace:LibControls;assembly=LibControls" x:Class="WpfTestMailSender.WpfMailSender"
- 
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MailSendler" Height="399" Width="514" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="Manual">
 
@@ -20,8 +20,18 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="16*"/>
         </Grid.RowDefinitions>
-        <LibControls:MoveControl Grid.Row="0" PrevText="{Binding ElementName=tcTabControl, Path=SelectedItem.Header}" NextText="{Binding ElementName=tcTabControl, Path=SelectedItem.Header}" btnNextClick="LibControls_TabSwitcherControl_btnNextClick" btnPrevClick="LibControls_TabSwitcherControl_btnPrevClick"/>
-        <TabControl x:Name="tcTabControl" Grid.Row="1" Grid.RowSpan="2">
+        <LibControls:MoveControl x:Name="lcMoveControls" Grid.Row="0" PrevText="{Binding ElementName=tcTabControl, Path=SelectedItem.Header}" NextText="{Binding ElementName=tcTabControl, Path=SelectedItem.Header}">
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="btnPrevClick">
+                    <b:InvokeCommandAction Command="{Binding TabPrev}"/>
+                </b:EventTrigger>
+                <b:EventTrigger EventName="btnNextClick">
+                    <b:InvokeCommandAction Command="{Binding TabNext}"/>
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+        </LibControls:MoveControl>
+        
+        <TabControl x:Name="tcTabControl" Grid.Row="1" Grid.RowSpan="2" SelectedIndex="{Binding TabControlIndex}">
             <TabItem Header="Авторизация" Grid.Row="2" x:Name="Auth">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -51,16 +61,28 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Margin="5,5,5,5">
-                            <TextBlock HorizontalAlignment="Center" Text="Введите ваши данные"/>
                             <TextBlock Text="Отправитель"/>
-                            <TextBox x:Name="tbFrom" Width="118" HorizontalAlignment="Left" Text="{Binding mfFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            <TextBlock Text="Кому:"/>
-                            <TextBox x:Name="tbTo" Width="131" HorizontalAlignment="Left" Text="{Binding mfTo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox x:Name="tbFrom" Width="131" HorizontalAlignment="Left" Validation.Error="Email_Error">
+                            <TextBox.Text>
+                                <Binding Path="mfFrom" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <vm:EmailValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Text="Кому:"/>
+                        <TextBox x:Name="tbTo" Width="131" HorizontalAlignment="Left" Validation.Error="Email_Error">
+                            <TextBox.Text>
+                                <Binding Path="mfTo" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True">
+                                    <Binding.ValidationRules>
+                                        <vm:EmailValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
                     </StackPanel>
                     <StackPanel Grid.Column="1"  Margin="5,5,5,5">
-                            <TextBlock Width="113" Text="Отправляем почту"/>
-                            <!--<Button x:Name="btnAddNewTo" Content="Добавить получателя" Click="btnAddNewTo_Click" Width="147" Margin="0,5,0,5"/>
-                        <TextBox x:Name="tbAddNewTo" Visibility="Hidden" Width="131" Text="функционал не создан"/>-->
                             <TextBlock Text="Тема письма:" Margin="0,10,0,0"/>
                             <TextBox x:Name="tbMailSubject" Text="{Binding mfMsgSubj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Text="Текст письма:"/>

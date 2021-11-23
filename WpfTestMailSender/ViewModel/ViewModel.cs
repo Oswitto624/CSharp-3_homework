@@ -11,40 +11,18 @@ namespace WpfTestMailSender.ViewModel
     class ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #region Авторизация
         public ICommand AccessCommand
         {
             get
             {
-                return new DelegateCommand(Execute);
-            }
-        }
-
-        public ICommand SendMessage
-        {
-            get
-            {
-                return new DelegateCommand(ExecuteSend);
+                return new DelegateCommand(ExecuteAccess);
             }
         }
 
         string _login;
         string _password;
-        
-        private void Execute(object obj)
-        {
-            if(MailSendlerLogic.CheckAccess(_login, _password))
-            {
-                System.Diagnostics.Debug.WriteLine("Access true");
-                System.Windows.Controls.TabControl tabControl = (obj as System.Windows.Controls.TabControl);
-                foreach (var el in tabControl.Items)
-                    (el as System.Windows.Controls.TabItem).IsEnabled = true;
-                var curEl = tabControl.SelectedItem as System.Windows.Controls.TabItem;
-                (curEl as System.Windows.Controls.TabItem).IsEnabled = false;
-                tabControl.SelectedIndex++;
-            }
-            else System.Diagnostics.Debug.WriteLine("Invalid login and/or password");
-        }
-
         public string Login 
         { 
             get { return _login; } 
@@ -71,6 +49,31 @@ namespace WpfTestMailSender.ViewModel
                 }
             }
         }
+        
+        private void ExecuteAccess(object obj)
+        {
+            if(MailSendlerLogic.CheckAccess(_login, _password))
+            {
+                System.Diagnostics.Debug.WriteLine("Access true");
+                System.Windows.Controls.TabControl tabControl = (obj as System.Windows.Controls.TabControl);
+                foreach (var el in tabControl.Items) (el as System.Windows.Controls.TabItem).IsEnabled = true;
+                
+                var curEl = tabControl.SelectedItem as System.Windows.Controls.TabItem;
+                curEl.IsEnabled = false;
+                tabControl.SelectedIndex++;
+            }
+            else System.Diagnostics.Debug.WriteLine("Invalid login and/or password");
+        }
+        #endregion
+
+        #region Отправка
+        public ICommand SendMessage
+        {
+            get
+            {
+                return new DelegateCommand(ExecuteSend);
+            }
+        }
 
         string _mfFrom;
         string _mfTo;
@@ -90,7 +93,6 @@ namespace WpfTestMailSender.ViewModel
                 }
             }
         }
-
         public string mfTo
         {
             get { return _mfTo; }
@@ -104,7 +106,6 @@ namespace WpfTestMailSender.ViewModel
                 }
             }
         }
-
         public string mfMsgSubj
         {
             get { return _mfMsgSubj; }
@@ -118,7 +119,6 @@ namespace WpfTestMailSender.ViewModel
                 }
             }
         }
-
         public string mfMsgBody
         {
             get { return _mfMsgBody; }
@@ -138,12 +138,12 @@ namespace WpfTestMailSender.ViewModel
             MailForm newMail = new MailForm(_mfFrom, _mfTo, _mfMsgSubj, _mfMsgBody);
             if (!MailSendlerLogic.CheckAdress(_mfFrom))
             {
-                System.Diagnostics.Debug.WriteLine("Неверный адрес отправителя!");
+                System.Diagnostics.Debug.WriteLine("Некорректный адрес отправителя!");
                 return;
             }
             if (!MailSendlerLogic.CheckAdress(_mfTo))
             {
-                System.Diagnostics.Debug.WriteLine("Неверный адрес получателя!");
+                System.Diagnostics.Debug.WriteLine("Некорректный адрес получателя!");
                 return;
             }
 
@@ -152,7 +152,45 @@ namespace WpfTestMailSender.ViewModel
             okWindow.ShowDialog();
             System.Diagnostics.Debug.WriteLine("Success");
         }
+        #endregion
 
+        #region TabControl Кнопки
+        private int tabControlIndex = 0;
+        public int TabControlIndex
+        {
+            get
+            {
+                return tabControlIndex;
+            }
+            set
+            {
+                if (tabControlIndex != value)
+                {
+                    tabControlIndex = value;
+                    System.Diagnostics.Debug.WriteLine("Изменение индекса TabControl, новый индекс: "+ tabControlIndex);
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TabControlIndex"));
+                }
+            }
+        }
 
+        public ICommand TabPrev
+        {
+            get
+            {
+                return new DelegateCommand(
+                    (obj) => { TabControlIndex = TabControlIndex == 0 ? 3 : --TabControlIndex; },
+                    (obj) => true);
+            }
+        }
+        public ICommand TabNext
+        {
+            get
+            {
+                return new DelegateCommand(
+                    (obj) => { TabControlIndex = TabControlIndex == 3 ? 0 : ++TabControlIndex; },
+                    (obj) => true);
+            }
+        }
+        #endregion
     }
 }

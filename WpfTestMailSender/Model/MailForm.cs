@@ -7,10 +7,10 @@ namespace WpfTestMailSender
     //класс создал для будущей работы с массовой рассылкой
     public class MailForm
     {
-        private string from = "defaultSender@gmail.com";
-        private string to = "defaultRecipient@gmail.com";
-        private string msgSubject = "Default Subject";
-        private string msgBody = "Default Subject";
+        private string from;
+        private string to;
+        private string msgSubject;
+        private string msgBody;
 
         public string From
         {

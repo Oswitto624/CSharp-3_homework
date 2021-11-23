@@ -30,42 +30,19 @@ namespace WpfTestMailSender
             System.Diagnostics.Debug.WriteLine(fibFileInput.FileName);
         }
 
-        private void LibControls_TabSwitcherControl_btnPrevClick(object sender, RoutedEventArgs e)
+
+        private void Email_Error(object sender, ValidationErrorEventArgs e)
         {
-            if (Convert.ToInt32(tcTabControl.SelectedIndex) == 0) return;
-            tcTabControl.SelectedIndex--;
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+                System.Diagnostics.Debug.WriteLine("err");
+                ((Control)sender).ToolTip = e.Error.ErrorContent.ToString();
+            }
+            else if (e.Action == ValidationErrorEventAction.Removed)
+            {
+                System.Diagnostics.Debug.WriteLine("ok");
+                ((Control)sender).ToolTip = null;
+            }
         }
-
-        //не понял как получать последний индекс в TabControl, поэтому рамки проверки задаются вручную
-        private void LibControls_TabSwitcherControl_btnNextClick(object sender, RoutedEventArgs e)
-        {
-            if (Convert.ToInt32(tcTabControl.SelectedIndex) == 3) return;
-            tcTabControl.SelectedIndex++;
-        }
-
-        //private void btnAddNewTo_Click(object sender, RoutedEventArgs e)
-        //{
-        //    tbAddNewTo.Visibility = Visibility.Visible;
-        //    btnAddNewTo.Visibility = Visibility.Hidden;
-        //}
-
-        //private void btnSendEmail_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MailForm newMail = new MailForm(tbTo.Text, tbFrom.Text, tbMailSubject.Text, tbMailBody.Text);
-        //    if (!MailSendlerLogic.CheckAdress(tbFrom.Text))
-        //    {
-        //        MessageBox.Show("Неверный адрес отправителя!");
-        //        return;
-        //    }
-        //    if (!MailSendlerLogic.CheckAdress(tbTo.Text))
-        //    {
-        //        MessageBox.Show("Неверный адрес получателя!");
-        //        return;
-        //    }
-
-        //    MailSendlerLogic.SendMessage(newMail, PasswordBox.Password);
-        //    SendEndWindow okWindow = new SendEndWindow();
-        //    okWindow.ShowDialog();
-        //}
     }
 }
