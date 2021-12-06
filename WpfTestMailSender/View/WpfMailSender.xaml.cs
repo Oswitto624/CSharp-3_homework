@@ -38,11 +38,18 @@ namespace WpfTestMailSender
                 System.Diagnostics.Debug.WriteLine("err");
                 ((Control)sender).ToolTip = e.Error.ErrorContent.ToString();
             }
-            else if (e.Action == ValidationErrorEventAction.Removed)
+            else
             {
-                System.Diagnostics.Debug.WriteLine("ok");
-                ((Control)sender).ToolTip = null;
+                if (!((BindingExpressionBase)e.Error.BindingInError).HasError)
+                {
+                    ((Control)sender).ToolTip = null;
+                    //System.Diagnostics.Debug.WriteLine("ok");
+                    //((Control)sender).ToolTip = null;
+                }
+
             }
+
         }
     }
 }
+
